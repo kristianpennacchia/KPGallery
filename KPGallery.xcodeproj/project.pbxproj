@@ -13,7 +13,7 @@
 		C1222276188A78C70058D3A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1222274188A78C70058D3A8 /* InfoPlist.strings */; };
 		C1222278188A78C70058D3A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C1222277188A78C70058D3A8 /* main.m */; };
 		C122227C188A78C70058D3A8 /* KPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C122227B188A78C70058D3A8 /* KPAppDelegate.m */; };
-		C122227F188A78C70058D3A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C122227D188A78C70058D3A8 /* Main.storyboard */; };
+		C122227F188A78C70058D3A8 /* KPGallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C122227D188A78C70058D3A8 /* KPGallery.storyboard */; };
 		C1222282188A78C70058D3A8 /* KPGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1222281188A78C70058D3A8 /* KPGalleryViewController.m */; };
 		C1222284188A78C70058D3A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1222283188A78C70058D3A8 /* Images.xcassets */; };
 		C122228B188A78C70058D3A8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C122228A188A78C70058D3A8 /* XCTest.framework */; };
@@ -47,7 +47,7 @@
 		C1222279188A78C70058D3A8 /* KPGallery-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KPGallery-Prefix.pch"; sourceTree = "<group>"; };
 		C122227A188A78C70058D3A8 /* KPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KPAppDelegate.h; sourceTree = "<group>"; };
 		C122227B188A78C70058D3A8 /* KPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KPAppDelegate.m; sourceTree = "<group>"; };
-		C122227E188A78C70058D3A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C122227E188A78C70058D3A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/KPGallery.storyboard; sourceTree = "<group>"; };
 		C1222280188A78C70058D3A8 /* KPGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KPGalleryViewController.h; sourceTree = "<group>"; };
 		C1222281188A78C70058D3A8 /* KPGalleryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KPGalleryViewController.m; sourceTree = "<group>"; };
 		C1222283188A78C70058D3A8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 				C19E914C188BF5AB00A99917 /* Assets */,
 				C122227A188A78C70058D3A8 /* KPAppDelegate.h */,
 				C122227B188A78C70058D3A8 /* KPAppDelegate.m */,
-				C122227D188A78C70058D3A8 /* Main.storyboard */,
+				C122227D188A78C70058D3A8 /* KPGallery.storyboard */,
 				C1222280188A78C70058D3A8 /* KPGalleryViewController.h */,
 				C1222281188A78C70058D3A8 /* KPGalleryViewController.m */,
 				C1222283188A78C70058D3A8 /* Images.xcassets */,
@@ -244,7 +244,7 @@
 				C1222284188A78C70058D3A8 /* Images.xcassets in Resources */,
 				C12222A7188A7B720058D3A8 /* KPGalleryCell.xib in Resources */,
 				C1222276188A78C70058D3A8 /* InfoPlist.strings in Resources */,
-				C122227F188A78C70058D3A8 /* Main.storyboard in Resources */,
+				C122227F188A78C70058D3A8 /* KPGallery.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,12 +297,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		C122227D188A78C70058D3A8 /* Main.storyboard */ = {
+		C122227D188A78C70058D3A8 /* KPGallery.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C122227E188A78C70058D3A8 /* Base */,
 			);
-			name = Main.storyboard;
+			name = KPGallery.storyboard;
 			sourceTree = "<group>";
 		};
 		C1222293188A78C70058D3A8 /* InfoPlist.strings */ = {
