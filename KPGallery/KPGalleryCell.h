@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSString *imageName;
 
+- (void)updateCellWithPathToImage:(NSString *)path;
 - (void)updateCellWithImage:(UIImage *)image;
 
 @end

@@ -12,8 +12,9 @@
                                                         UICollectionViewDelegate,
                                                         UICollectionViewDelegateFlowLayout>
 
-- (void)addImagesFromDirectoryAtPath:(NSString *)path;
-- (void)addImageAtPath:(NSString *)path;
+- (unsigned long)addImagesFromDirectoryAtPath:(NSString *)path;
+- (BOOL)addImageAtPath:(NSString *)path;
+- (BOOL)validateImage:(NSString *)path;
 - (int)calculateCurrentIndex;
 
 @end

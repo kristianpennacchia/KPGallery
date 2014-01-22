@@ -15,7 +15,7 @@
 @interface KPGalleryViewController ()
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;    // Will hold string paths to the images
 @property (nonatomic) int currentIndex;
 
 @end
@@ -68,7 +68,7 @@
 {
     KPGalleryCell *cell = (KPGalleryCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier
                                                                                      forIndexPath:indexPath];
-    [cell updateCellWithImage:[self.dataArray objectAtIndex:indexPath.row]];
+    [cell updateCellWithPathToImage:[self.dataArray objectAtIndex:indexPath.row]];
 
     return cell;
 }
@@ -119,39 +119,70 @@
 
 #pragma mark - Adding images to the array
 
-/* Adds images from the specified directory onto the end of the dataArray */
-- (void)addImagesFromDirectoryAtPath:(NSString *)path
+/* Adds images from the specified directory onto the end of the dataArray
+ * returns the amount of images that were added to the dataArray */
+- (unsigned long)addImagesFromDirectoryAtPath:(NSString *)path
 {
+    // Record the current image count in the dataArray so we cna figure out how
+    // many images were added
+    unsigned long imageCountBefore = [self.dataArray count];
+
     // This array will hold the names of the files in the directory
     NSArray *filenamesArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
 
     // Enumerate through the filename array and create an image from each filename
     for (NSString *filename in filenamesArray) {
-        UIImage *image = [UIImage imageWithContentsOfFile:[path stringByAppendingPathComponent:filename]];
-        // Check if image is valid
-        if (image) {
-            // image is valid
-            // Add image to dataArray
-            [self.dataArray addObject:image];
-        }
+        [self addImageAtPath:[path stringByAppendingPathComponent:filename]];
     }
+
+    // Return amount of images added
+    return [self.dataArray count] - imageCountBefore;
 }
 
 
-/* Adds the specified image onto the end of the dataArray */
-- (void)addImageAtPath:(NSString *)path
+/* Adds the specified image path onto the end of the dataArray */
+- (BOOL)addImageAtPath:(NSString *)path
 {
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    // Check if image is valid
-    if (image) {
-        // image is valid
-        // Add image to dataArray
-        [self.dataArray addObject:image];
+    // First check if string path exists in dataArray already
+    if ([[self dataArray] containsObject:path]) {
+        // Is already in array, no need to continue.
+        return true;
     }
+
+    if (![self validateImage:path]) {
+        return false;
+    }
+
+    // Image is valid, add the string path to the dataArray
+    [self.dataArray addObject:path];
+
+    return true;
+}
+
+- (BOOL)validateImage:(NSString *)path
+{
+    // Verify the path
+    if (![[NSFileManager defaultManager] isReadableFileAtPath:path]) {
+        // Not valid
+        return false;
+    }
+
+    // Check if image is valid (is there a better way to do this?)
+    UIImage *image = [UIImage imageWithContentsOfFile:path];
+    if (!image) {
+        // image is not valid
+        return false;
+    }
+
+    // Image is valid
+    return true;
 }
 
 #pragma mark - Device rotation handling
 
+/* When this method is run, the current index will be calculated for use when
+ * the actual rotation occurs
+ */
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
                                 duration:(NSTimeInterval)duration
 {
@@ -159,6 +190,7 @@
     [[self.collectionView collectionViewLayout] invalidateLayout];
 
     self.currentIndex = [self calculateCurrentIndex];
+    NSLog(@"currentIndex = %d", self.currentIndex);
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -166,6 +198,11 @@
     // Force realignment of cell being displayed
     CGSize currentSize = self.collectionView.bounds.size;
     float offset = self.currentIndex * currentSize.width;
+
+    NSLog(@"currentSize.width = %f", currentSize.width);
+    NSLog(@"currentSize.height = %f", currentSize.height);
+    NSLog(@"offset = %f", offset);
+
     [self.collectionView setContentOffset:CGPointMake(offset, 0)];
 }
 
