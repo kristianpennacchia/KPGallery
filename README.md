@@ -7,11 +7,11 @@ KPGallery is heavily modified and based on the "Creating a Paged Photo Gallery W
 
 Major changes:
 - Made generic. Can be easily adapted for use in another project.
-- Images are now loaded from a given path (directory or single image) and then stored in memory.
+- Images are now loaded from a given path (directory or single image) instead of a fixed one, and then they are only loaded into memory when being displayed.
 - Split some pieces of code into reusable functions.
 
 TODO:
 - FIX: Bug where images become misaligned when rotating the device.
-- CHANGE: Store the images in a cache folder and then load them as needed. This is more efficient as it will save memory.
+- CHANGE: Store downloaded images in a cache folder and then load them as needed.
 - CHANGE: Provide an “empty state” message when there are no images to display.
 - FEATURE: Add a navigation toolbar with a share button which will allow the user to share the current image (work already begun).
