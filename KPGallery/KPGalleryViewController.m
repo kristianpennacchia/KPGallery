@@ -30,6 +30,35 @@
 
     self.dataArray = [[NSMutableArray alloc] init];
 
+
+    // Create the empty state
+    self.bgView = [[UIView alloc] initWithFrame:[self.view frame]];
+    [self.bgView setBackgroundColor:[UIColor blackColor]];
+
+    self.bgLabel = [[UILabel alloc] init];
+    [self.bgLabel setText:@"No Images"];
+    [self.bgLabel sizeToFit];
+    [self.bgLabel setTextColor:[UIColor whiteColor]];
+
+    // Center the bgLabel into the middle of the bgView
+    // minus the width and height to get the correct offset (positioning is done
+    // by the left most point of the label, so we need to offset the label by using
+    // it's width and height to make sure it is centered)
+    int labelX = (self.bgView.frame.size.width / 2) - self.bgLabel.frame.size.width / 2;
+    int labelY = (self.bgView.frame.size.height / 2) - self.bgLabel.frame.size.height;
+    [self.bgLabel setFrame:CGRectMake(labelX,
+                                      labelY,
+                                      self.bgLabel.frame.size.width,
+                                      self.bgLabel.frame.size.height)];
+
+    [self.bgView addSubview:self.bgLabel];
+    [self.bgView bringSubviewToFront:self.bgLabel];
+
+    [self.view addSubview:self.bgView];
+    [self.view sendSubviewToBack:self.bgView];
+
+    [self.bgView setHidden:NO];
+
     // TESTING: Load images from directory on startup
     NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Assets"];
     [self addImagesFromDirectoryAtPath:path];
@@ -61,7 +90,18 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.dataArray count];
+    long imagesCount = [self.dataArray count];
+
+    if (imagesCount < 1) {
+        // Display the empty state
+        [self.collectionView setHidden:YES];
+    }
+    else {
+        // Display the images (collection view)
+        [self.collectionView setHidden:NO];
+    }
+
+    return imagesCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -155,6 +195,8 @@
 
     // Image is valid, add the string path to the dataArray
     [self.dataArray addObject:path];
+
+    [self.collectionView reloadData];
 
     return true;
 }

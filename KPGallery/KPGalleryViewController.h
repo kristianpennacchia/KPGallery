@@ -12,6 +12,9 @@
                                                         UICollectionViewDelegate,
                                                         UICollectionViewDelegateFlowLayout>
 
+@property (strong, nonatomic) UIView *bgView;   // Used for the empty state
+@property (strong, nonatomic) UILabel *bgLabel; // Will hold the message to display for the empty state
+
 - (unsigned long)addImagesFromDirectoryAtPath:(NSString *)path;
 - (BOOL)addImageAtPath:(NSString *)path;
 - (BOOL)validateImage:(NSString *)path;
