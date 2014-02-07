@@ -15,6 +15,8 @@
 - (unsigned long)addImagesFromDirectoryAtPath:(NSString *)path;
 - (BOOL)addImageAtPath:(NSString *)path;
 - (BOOL)validateImage:(NSString *)path;
+- (BOOL)saveImageToCache:(UIImage *)image withName:(NSString *)name;
+- (BOOL)saveImage:(UIImage *)image toPath:(NSString *)path withName:(NSString *)name;
 - (int)calculateCurrentIndex;
 
 @end

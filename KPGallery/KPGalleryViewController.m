@@ -178,6 +178,26 @@
     return true;
 }
 
+- (BOOL)saveImageToCache:(UIImage *)image withName:(NSString *)name
+{
+    // Get the path to the caches directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cacheDirectory = [paths objectAtIndex:0];
+
+    return [self saveImage:image toPath:cacheDirectory withName:name];
+}
+
+- (BOOL)saveImage:(UIImage *)image toPath:(NSString *)path withName:(NSString *)name
+{
+    // Cast UIImage to NSData so we can write to the file system
+    NSData *data = [NSData dataWithData:(NSData *)image];
+
+    // Make the final path name
+    NSString *finalPath = [NSString stringWithFormat:@"%@/%@", path, name];
+
+    return [data writeToFile:finalPath atomically:YES];
+}
+
 #pragma mark - Device rotation handling
 
 /* When this method is run, the current index will be calculated for use when
