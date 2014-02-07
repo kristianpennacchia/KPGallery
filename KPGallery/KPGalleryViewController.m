@@ -64,13 +64,6 @@
     [self addImagesFromDirectoryAtPath:path];
 
     [self setupCollectionView];
-
-    // WIP:
-    // Add the share button to the navigation bar
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                 target:self
-                                                                                 action:@selector(share)];
-    [self.navigationItem setRightBarButtonItem:shareButton animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
