@@ -135,21 +135,6 @@
     [self.collectionView setCollectionViewLayout:flowLayout];
 }
 
-#pragma mark - Toolbar buttons
-
-/* This method is called when the share button in the navigation bar is pressed.
- * It will open the share sheet which will allow you to share the current image
- */
-- (void)share
-{
-    NSArray *activityItems = [[NSArray alloc] initWithObjects:
-                              [self.dataArray objectAtIndex:[self calculateCurrentIndex]], nil];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc]
-                                                        initWithActivityItems:activityItems applicationActivities:nil];
-
-    [self presentViewController:activityViewController animated:YES completion:nil];
-}
-
 #pragma mark - Adding images to the array
 
 /* Adds images from the specified directory onto the end of the dataArray
