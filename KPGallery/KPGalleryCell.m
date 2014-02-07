@@ -40,25 +40,9 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
 /* Loads the image from the given path into a UIImage and passes it on */
 - (void)updateCellWithPathToImage:(NSString *)path
 {
-    // TODO:
-    // Check if image exists in NSCache first. If it does, send that directly
-    // to updateCellWithImage:
-
-    // If it does not, load it from the given path into a UIImage, then use
-    // the updateCellWithImage: method
-
     [self updateCellWithImage:[UIImage imageWithContentsOfFile:path]];
 }
 
