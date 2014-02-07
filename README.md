@@ -12,5 +12,4 @@ Major changes:
 
 TODO:
 - FIX: Bug where images become misaligned when rotating the device.
-- CHANGE: Provide an “empty state” message when there are no images to display.
 - FEATURE: Add a navigation toolbar with a share button which will allow the user to share the current image (work already begun).
