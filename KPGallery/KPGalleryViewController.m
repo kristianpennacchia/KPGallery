@@ -8,14 +8,15 @@
 
 #import "KPGalleryViewController.h"
 #import "KPGalleryCell.h"
+#import "KPImageManager.h"
 
 // The reuse identifer that will be used to associate with KPGalleryCell
 #define kCellIdentifier @"cellIdentifier"
 
 @interface KPGalleryViewController ()
 
+@property (nonatomic, strong) KPImageManager *imageManager;
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
-@property (nonatomic, strong) NSMutableArray *dataArray;    // Will hold string paths to the images
 @property (nonatomic) int currentIndex;
 
 @end
@@ -28,8 +29,8 @@
 
 	// Do any additional setup after loading the view, typically from a nib.
 
-    self.dataArray = [[NSMutableArray alloc] init];
-
+    // Alloc and init the image manager
+    self.imageManager = [[KPImageManager alloc] init];
 
     // Create the empty state
     self.bgView = [[UIView alloc] initWithFrame:[self.view frame]];
@@ -60,8 +61,11 @@
     [self.bgView setHidden:NO];
 
     // TESTING: Load images from directory on startup
+    // // If new images don't show up after adding them to the array, you need
+    // to reloadData of collectionView or table
     NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Assets"];
-    [self addImagesFromDirectoryAtPath:path];
+    [self.imageManager addImagesFromDirectoryAtPath:path];
+    [self.collectionView reloadData];
 
     [self setupCollectionView];
 }
@@ -83,7 +87,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    long imagesCount = [self.dataArray count];
+    long imagesCount = [self.imageManager.dataArray count];
 
     if (imagesCount < 1) {
         // Display the empty state
@@ -101,7 +105,7 @@
 {
     KPGalleryCell *cell = (KPGalleryCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier
                                                                                      forIndexPath:indexPath];
-    [cell updateCellWithPathToImage:[self.dataArray objectAtIndex:indexPath.row]];
+    [cell updateCellWithPathToImage:[self.imageManager.dataArray objectAtIndex:indexPath.row]];
 
     return cell;
 }
@@ -133,89 +137,6 @@
 
     [self.collectionView setPagingEnabled:YES];
     [self.collectionView setCollectionViewLayout:flowLayout];
-}
-
-#pragma mark - Adding images to the array
-
-/* Adds images from the specified directory onto the end of the dataArray
- * returns the amount of images that were added to the dataArray */
-- (unsigned long)addImagesFromDirectoryAtPath:(NSString *)path
-{
-    // Record the current image count in the dataArray so we cna figure out how
-    // many images were added
-    unsigned long imageCountBefore = [self.dataArray count];
-
-    // This array will hold the names of the files in the directory
-    NSArray *filenamesArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
-
-    // Enumerate through the filename array and create an image from each filename
-    for (NSString *filename in filenamesArray) {
-        [self addImageAtPath:[path stringByAppendingPathComponent:filename]];
-    }
-
-    // Return amount of images added
-    return [self.dataArray count] - imageCountBefore;
-}
-
-
-/* Adds the specified image path onto the end of the dataArray */
-- (BOOL)addImageAtPath:(NSString *)path
-{
-    // First check if string path exists in dataArray already
-    if ([[self dataArray] containsObject:path]) {
-        // Is already in array, no need to continue.
-        return true;
-    }
-
-    if (![self validateImage:path]) {
-        return false;
-    }
-
-    // Image is valid, add the string path to the dataArray
-    [self.dataArray addObject:path];
-
-    [self.collectionView reloadData];
-
-    return true;
-}
-
-- (BOOL)validateImage:(NSString *)path
-{
-    // Verify the path
-    if (![[NSFileManager defaultManager] isReadableFileAtPath:path]) {
-        // Not valid
-        return false;
-    }
-
-    // Check if image is valid (is there a better way to do this?)
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    if (!image) {
-        // image is not valid
-        return false;
-    }
-
-    // Image is valid
-    return true;
-}
-
-- (BOOL)saveImageToCache:(UIImage *)image withName:(NSString *)name
-{
-    // Get the path to the caches directory
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cacheDirectory = [paths objectAtIndex:0];
-
-    return [self saveImage:image toPath:cacheDirectory withName:name];
-}
-
-- (BOOL)saveImage:(UIImage *)image toPath:(NSString *)path withName:(NSString *)name
-{
-    // Cast UIImage to NSData so we can write to the file system
-    NSData *data = [NSData dataWithData:(NSData *)image];
-
-    // Make the final path name
-    NSString *finalPath = [NSString stringWithFormat:@"%@/%@", path, name];
-
-    return [data writeToFile:finalPath atomically:YES];
 }
 
 #pragma mark - Device rotation handling
